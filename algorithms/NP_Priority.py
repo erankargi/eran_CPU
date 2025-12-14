@@ -1,0 +1,131 @@
+
+from __future__ import annotations
+from typing import List, Dict, Any, Tuple
+
+PRIORITY_MAP_DEFAULT = {
+    "high": 0,
+    "normal": 1,
+    "low": 2,
+}
+
+def priority_non_preemptive(
+    processes: List[Dict[str, Any]],
+    context_switch_overhead: float = 0.0,
+    priority_map: Dict[str, int] | None = None,
+):
+   
+    if not processes:
+        empty_metrics = {
+            "throughput": {},
+            "cpu_efficiency_percent": 0.0,
+            "busy_time": 0.0,
+            "idle_time": 0.0,
+            "context_overhead_time": 0.0,
+            "total_time": 0.0,
+            "context_switches": 0,
+        }
+        return [], [], empty_metrics
+
+    pmap = priority_map or PRIORITY_MAP_DEFAULT
+
+    
+    procs = []
+    for p in processes:
+        pr = str(p.get("priority", "normal")).strip().lower()
+        procs.append({
+            "pid": p["pid"],
+            "arrival": int(p["arrival"]),
+            "burst": int(p["burst"]),
+            "priority": pr,
+            "priority_value": pmap.get(pr, 1), 
+        })
+
+    
+    procs.sort(key=lambda x: (x["arrival"], x["pid"]))
+
+    timeline: List[Dict[str, Any]] = []
+    results: List[Dict[str, Any]] = []
+
+    t: float = 0.0
+    i = 0
+    n = len(procs)
+
+    ready: List[Dict[str, Any]] = []
+    completed = 0
+
+    busy_time = 0.0
+    idle_time = 0.0
+    context_overhead_time = 0.0
+    context_switches = 0
+    throughput: Dict[int, int] = {}
+
+    last_pid = None
+
+    while completed < n:
+       
+        while i < n and procs[i]["arrival"] <= t:
+            ready.append(procs[i])
+            i += 1
+
+        if not ready:
+            
+            next_arrival = procs[i]["arrival"]  
+            if next_arrival > t:
+                timeline.append({"pid": "IDLE", "start": t, "end": float(next_arrival)})
+                idle_time += float(next_arrival) - t
+                t = float(next_arrival)
+            continue
+
+        
+       
+        ready.sort(key=lambda x: (x["priority_value"], x["arrival"], x["pid"]))
+        p = ready.pop(0)
+
+        
+        if last_pid is not None:
+            context_switches += 1
+            if context_switch_overhead > 0:
+                timeline.append({"pid": "CS", "start": t, "end": t + context_switch_overhead})
+                context_overhead_time += context_switch_overhead
+                t += context_switch_overhead
+
+        start = t
+        end = t + p["burst"]
+
+        timeline.append({"pid": p["pid"], "start": start, "end": end})
+        busy_time += p["burst"]
+
+        waiting = start - p["arrival"]
+        turnaround = end - p["arrival"]
+
+        results.append({
+            "pid": p["pid"],
+            "arrival": p["arrival"],
+            "burst": p["burst"],
+            "priority": p["priority"],
+            "start": start,
+            "finish": end,
+            "waiting": waiting,
+            "turnaround": turnaround,
+        })
+
+        t = end
+        last_pid = p["pid"]
+        completed += 1
+
+        throughput[int(t)] = completed
+
+    total_time = busy_time + idle_time + context_overhead_time
+    cpu_eff = (busy_time / total_time * 100.0) if total_time > 0 else 0.0
+
+    metrics = {
+        "throughput": throughput,
+        "cpu_efficiency_percent": cpu_eff,
+        "busy_time": busy_time,
+        "idle_time": idle_time,
+        "context_overhead_time": context_overhead_time,
+        "total_time": total_time,
+        "context_switches": context_switches,
+    }
+
+    return timeline, results, metrics

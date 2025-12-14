@@ -1,0 +1,11 @@
+CASE1 RAPORU 
+
+Bu projede ilk olarak Case1 senaryosunu ele aldım. 
+
+Case1 için FCFS, Non-Preemptive SJF, Non-Preemptive Priority ve Round Robin algoritmalarını uyguladım. Her algoritmayı ayrı ayrı çalıştırarak elde edilen sonuçları inceledim ve zaman tablolarını oluşturdum. Zaman tabloları sayesinde süreçlerin CPU’yu hangi sırayla ve hangi zaman aralıklarında kullandığını gördüm.
+
+ Her bir zamanlama algoritmasını ayrı bir thread içerisinde çalıştırdım. Her thread kendi algoritmasını çalıştırırken aynı süreç verisini kullanmış oldu.Bu sayede algoritmalar birbirinden bağımsız olarak çalıştı ve tüm yöntemler eş zamanlı şekilde yürütüldü. Böylece her algoritmanın Case1 üzerindeki performansı aynı koşullar altında değerlendirmiş oldum.
+
+Sonuçta Case1 için her algoritmanın zaman tablosunu ve ürettiği sonuçları ayrı ayrı buldum ve
+TXT formatında verilen girdiler için utils klasöründe yer alan yardımcı fonksiyonlar ile CSV’ye dönüştürme işlemi yaptım. Bu sayede proje, farklı formatlardaki girdi dosyalarıyla da çalışabilir hâle gelmiş oldu.
+

@@ -1,0 +1,47 @@
+KULLANICI KILAVUZU
+
+1. PROJENİN AMACI
+
+Bu projenin amacı, CPU zamanlama algoritmalarının (FCFS, SJF, Priority ve Round Robin) farklı durumlarda nasıl çalıştığını görmek ve sonuçlarını karşılaştırmaktır. Bunun için Case1 ve Case2 olmak üzere iki farklı senaryo kullanılmıştır.
+
+2. PROGRAMIN ÇALIŞTIRILMASI
+
+Program Python dili ile yazılmıştır. Terminalden aşağıdaki komut ile çalıştırılır:
+
+python app.py
+
+Program çalıştığında kullanıcıdan girdi dosyası seçmesi istenir ve seçilen dosya için tüm algoritmalar otomatik olarak çalıştırılır.
+
+3. GİRDİ DOSYALARI
+
+Girdi dosyaları CSV formatındadır ve data klasörü içindedir. Her satır bir süreci temsil eder.
+
+
+4. KULLANILAN ALGORİTMALAR
+
+Projede aşağıdaki CPU zamanlama algoritmaları kullanılmıştır:
+
+- FCFS (First Come First Served)
+- Non-Preemptive SJF (Shortest Job First)
+- Non-Preemptive Priority
+- Round Robin
+
+5. ÇIKTI DOSYALARI
+
+Program çalıştırıldığında outputs klasörü altında her algoritma için ayrı çıktı dosyaları oluşturulur. Bu dosyaların içinde:
+
+- Zaman tabloları
+- Bekleme süreleri
+- Turnaround süreleri
+- CPU verimliliği
+- Throughput bilgileri
+
+yer almaktadır.
+
+6. ZAMAN TABLOLARI
+
+Zaman tablolarında süreçlerin CPU’yu hangi zaman aralığında kullandığı gösterilmektedir. IDLE satırları CPU’nun boş kaldığı zamanları ifade eder. Round Robin algoritmasında aynı sürecin birden fazla kez tabloda görünmesi normaldir.
+
+7. ÖNEMLİ NOT
+
+Case1 ve Case2 girdi dosyalarında priority alanı bulunmadığı için Priority algoritması varış zamanına göre çalışacak şekilde uygulanmıştır.

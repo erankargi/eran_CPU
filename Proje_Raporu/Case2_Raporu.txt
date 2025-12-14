@@ -1,0 +1,8 @@
+CASE2 RAPORU 
+Bu projede ikinci olarak Case2 senaryosunu ele aldım. Case2, Case1’e göre süreçlerin varış zamanları ve CPU patlama süreleri farklı olacak şekilde bulmuş oldum. 
+
+Case2 için FCFS, Non-Preemptive SJF, Non-Preemptive Priority ve Round Robin algoritmalarını uyguladım. Her algoritmayı ayrı ayrı çalıştırarak elde edilen sonuçları inceledim ve Case2’ye ait zaman tablolarını oluşturdum. Bu tablolar sayesinde süreçlerin CPU’yu hangi sırayla ve hangi zaman aralıklarında kullandığını gördüm.
+
+Case1'de yaptığım şekilde burda da her bir zamanlama algoritmasını ayrı bir thread içerisinde çalıştırdım ve projede TXT formatında verilen girdiler için utils klasöründe yer alan yardımcı fonksiyonlar ile CSV’ye dönüştürme işlemi yaptım. Böylece proje, farklı formatlardaki girdi dosyalarıyla da çalışabilir oldu.
+
+Sonuçta Case2 senaryosunu CPU zamanlama algoritmalarının farklı bir süreç dağılımını inceledim.
